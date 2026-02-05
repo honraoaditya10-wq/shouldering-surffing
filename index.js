@@ -668,6 +668,11 @@ snapshotBtn.onclick = () => {
   ctx.drawImage(video, 0, 0);
   
   snapshotCanvas.toBlob(blob => {
+    if (!blob) {
+      toast('❌ Snapshot failed — camera not ready', 'danger');
+      logEvent('❌ Snapshot failed (empty blob)', 'warn');
+      return;
+    }
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
